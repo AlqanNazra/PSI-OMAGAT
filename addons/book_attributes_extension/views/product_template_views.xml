@@ -5,17 +5,17 @@
         <field name="model">product.template</field>
         <field name="inherit_id" ref="product.product_template_form_view"/>
         <field name="arch" type="xml">
-            <notebook position="inside">
-                <page string="Book Details">
+            <xpath expr="//notebook" position="inside">
+                <page string="Book Details" name="book_details">
                     <group>
                         <field name="is_book"/>
-                        <field name="author" attrs="{'invisible': [('is_book', '=', False)]}"/>
-                        <field name="publisher" attrs="{'invisible': [('is_book', '=', False)]}"/>
-                        <field name="genre" attrs="{'invisible': [('is_book', '=', False)]}"/>
-                        <field name="age" attrs="{'invisible': [('is_book', '=', False)]}"/>
+                        <field name="author" invisible="not is_book"/>
+                        <field name="publisher" invisible="not is_book"/>
+                        <field name="genre" invisible="not is_book"/>
+                        <field name="age" invisible="not is_book"/>
                     </group>
                 </page>
-            </notebook>
+            </xpath>
         </field>
     </record>
 </odoo>

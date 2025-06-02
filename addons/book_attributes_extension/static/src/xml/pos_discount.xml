@@ -3,7 +3,7 @@
     <t t-extend="ProductScreen">
         <t t-jquery=".product-list" t-operation="after">
             <div class="discount-info">
-                <span>Bundle Discounts Applied</span>
+                <span>Discounts Applied</span>
             </div>
         </t>
     </t>

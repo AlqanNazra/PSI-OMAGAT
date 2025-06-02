@@ -1,4 +1,4 @@
-odoo.define('bookstore_pos.PosDiscount', function (require) {
+odoo.define('book_attributes_extension.PosDiscount', function (require) {
     'use strict';
 
     const PosComponent = require('point_of_sale.PosComponent');
@@ -14,17 +14,17 @@ odoo.define('bookstore_pos.PosDiscount', function (require) {
                 order.orderlines.forEach(line => {
                     const product = line.get_product();
                     if (product.is_book) {
-                        if (product.genre === 'Fantasy') {
+                        if (product.genre && product.genre[1] === 'Fantasy') {
                             fantasy_books += line.get_quantity();
-                        } else if (product.genre === 'Edukasi') {
+                        } else if (product.genre && product.genre[1] === 'Edukasi') {
                             education_books += line.get_quantity();
                         }
                     }
                 });
-                if (fantasy_books >= 2 && this.get_product().genre === 'Fantasy') {
+                if (fantasy_books >= 2 && this.get_product().genre && this.get_product().genre[1] === 'Fantasy') {
                     this.set_discount(10);
                 }
-                if (education_books >= 3 && this.get_product().genre === 'Edukasi') {
+                if (education_books >= 3 && this.get_product().genre && this.get_product().genre[1] === 'Edukasi') {
                     this.set_discount(15);
                 }
             }
