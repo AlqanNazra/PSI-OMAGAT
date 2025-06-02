@@ -7,4 +7,12 @@ class ProductTemplate(models.Model):
     author = fields.Char(string="Author")
     publisher = fields.Char(string="Publisher")
     genre = fields.Many2one('book.genre', string="Genre")
-    age = fields.Integer(string="Recommended Age")
+    age = fields.Selection(
+        selection=[
+            ('children', 'Anak-anak'),
+            ('teen', 'Remaja'),
+            ('adult', 'Dewasa'),
+        ],
+        string="Recommended Age",
+        default='adult',
+    )

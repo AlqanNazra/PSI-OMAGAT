@@ -1,4 +1,4 @@
-odoo.define('book_attributes_extension.PosDiscount', function (require) {
+odoo.define('book_attributes_extension.PosDiscount', ['point_of_sale.PosComponent', 'point_of_sale.Registries', 'point_of_sale.models'], function (require) {
     'use strict';
 
     const PosComponent = require('point_of_sale.PosComponent');
@@ -11,9 +11,10 @@ odoo.define('book_attributes_extension.PosDiscount', function (require) {
                 let fantasy_books = 0;
                 let education_books = 0;
                 const order = this.pos.get_order();
+                if (!order || !order.orderlines) return;
                 order.orderlines.forEach(line => {
                     const product = line.get_product();
-                    if (product.is_book) {
+                    if (product && product.is_book) {
                         if (product.genre && product.genre[1] === 'Fantasy') {
                             fantasy_books += line.get_quantity();
                         } else if (product.genre && product.genre[1] === 'Edukasi') {

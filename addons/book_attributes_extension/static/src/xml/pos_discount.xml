@@ -7,4 +7,14 @@
             </div>
         </t>
     </t>
+    <t t-extend="ProductItem">
+        <t t-jquery=".product-info" t-operation="after">
+            <t t-if="product.is_book">
+                <div class="product-details">
+                    <span class="product-genre">Genre: <t t-esc="product.genre ? product.genre[1] : 'N/A'"/></span><br/>
+                    <span class="product-age">Recommended Age: <t t-esc="product.age || 'N/A'"/></span>
+                </div>
+            </t>
+        </t>
+    </t>
 </templates>

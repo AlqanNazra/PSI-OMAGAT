@@ -39,7 +39,8 @@ class PosOrder(models.Model):
         invoice = super(PosOrder, self)._create_invoice()
         for line in self.lines:
             if line.product_id.product_tmpl_id.is_book:
-                description = f"{line.product_id.name} (Author: {line.product_id.product_tmpl_id.author or 'N/A'}, Publisher: {line.product_id.product_tmpl_id.publisher or 'N/A'}, Genre: {line.product_id.product_tmpl_id.genre.name or 'N/A'}, Age: {line.product_id.product_tmpl_id.age or 'N/A'})"
+                age_display = dict(line.product_id.product_tmpl_id._fields['age'].selection).get(line.product_id.product_tmpl_id.age, 'N/A')
+                description = f"{line.product_id.name} (Author: {line.product_id.product_tmpl_id.author or 'N/A'}, Publisher: {line.product_id.product_tmpl_id.publisher or 'N/A'}, Genre: {line.product_id.product_tmpl_id.genre.name or 'N/A'}, Age: {age_display})"
                 invoice_line = invoice.invoice_line_ids.filtered(lambda l: l.product_id == line.product_id)
                 if invoice_line:
                     invoice_line.name = description

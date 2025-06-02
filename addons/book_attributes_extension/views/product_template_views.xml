@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- Form View -->
     <record id="view_product_template_book_form" model="ir.ui.view">
         <field name="name">product.template.book.form</field>
         <field name="model">product.template</field>
@@ -15,6 +16,43 @@
                         <field name="age" invisible="not is_book"/>
                     </group>
                 </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Kanban View -->
+    <record id="view_product_template_book_kanban" model="ir.ui.view">
+        <field name="name">product.template.book.kanban</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_kanban_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//kanban" position="inside">
+                <!-- Explicitly load the required fields -->
+                <field name="is_book"/>
+                <field name="genre"/>
+                <field name="age"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card oe_kanban_global_click">
+                            <div class="oe_kanban_content">
+                                <div class="oe_kanban_image">
+                                    <img t-att-src="kanban_image('product.template', 'image_128', record.id.raw_value)" alt="Product Image"/>
+                                </div>
+                                <div class="oe_kanban_details">
+                                    <strong class="oe_kanban_title"><field name="name"/></strong>
+                                    <div class="oe_kanban_tags"/>
+                                    <!-- Safely check if is_book is true -->
+                                    <t t-if="record.is_book and record.is_book.value">
+                                        <div>Author: <field name="author"/></div>
+                                        <div>Publisher: <field name="publisher"/></div>
+                                        <div>Genre: <field name="genre"/></div>
+                                        <div>Recommended Age: <field name="age"/></div>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
             </xpath>
         </field>
     </record>
