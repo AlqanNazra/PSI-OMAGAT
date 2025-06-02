@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="genre_fantasy" model="book.genre">
+        <field name="name">Fantasy</field>
+    </record>
+    <record id="genre_education" model="book.genre">
+        <field name="name">Edukasi</field>
+    </record>
+    <record id="genre_fiction" model="book.genre">
+        <field name="name">Fiction</field>
+    </record>
+</odoo>

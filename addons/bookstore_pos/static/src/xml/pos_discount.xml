@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-extend="ProductScreen">
+        <t t-jquery=".product-list" t-operation="after">
+            <div class="discount-info">
+                <span>Bundle Discounts Applied</span>
+            </div>
+        </t>
+    </t>
+</templates>
