@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="book_recommendation_root_menu"
+              name="Book Reco."
+              sequence="100"/>
+
+    <menuitem id="book_recommendation_generate_menu"
+              name="Generate Recommendations"
+              parent="book_recommendation_root_menu"
+              action="action_book_recommendation_wizard"
+              sequence="1"/>
+
+    <menuitem id="book_recommendation_view_menu"
+              name="View Recommendations"
+              parent="book_recommendation_root_menu"
+              action="book_recommendation_action"
+              sequence="2"/>
+</odoo>

@@ -1,0 +1,4 @@
+# book_recommendation/security/ir.model.access.csv
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_book_recommendation_user,Book Recommendation User Access,model_book_recommendation,base.group_user,1,0,0,0
+access_book_recommendation_manager,Book Recommendation Manager Access,model_book_recommendation,base.group_user,1,1,1,1

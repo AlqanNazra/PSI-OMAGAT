@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="book_recommendation_view_tree" model="ir.ui.view">
+        <field name="name">book.recommendation.tree</field>
+        <field name="model">book.recommendation</field>
+        <field name="arch" type="xml">
+            <tree string="Book Recommendations">
+                <field name="rank" string="Rank"/>
+                <field name="type"/>
+                <field name="name"/>
+                <field name="sales_count"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="book_recommendation_view_form" model="ir.ui.view">
+        <field name="name">book.recommendation.form</field>
+        <field name="model">book.recommendation</field>
+        <field name="arch" type="xml">
+            <form string="Book Recommendation" create="false" edit="false" delete="false">
+                <sheet>
+                    <group>
+                        <field name="rank"/>
+                        <field name="type"/>
+                        <field name="name"/>
+                        <field name="sales_count"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="book_recommendation_view_search" model="ir.ui.view">
+        <field name="name">book.recommendation.search</field>
+        <field name="model">book.recommendation</field>
+        <field name="arch" type="xml">
+            <search string="Search Recommendations">
+                <field name="name"/>
+                <field name="type" filter_domain="[('type', '=', 'book')]"/>
+                <filter string="Books" name="type_book" domain="[('type', '=', 'book')]"/>
+                <filter string="Genres" name="type_genre" domain="[('type', '=', 'genre')]"/>
+                <filter string="Authors" name="type_author" domain="[('type', '=', 'author')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Type" name="group_by_type" context="{'group_by':'type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="book_recommendation_action" model="ir.actions.act_window">
+        <field name="name">Book Recommendations</field>
+        <field name="res_model">book.recommendation</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No recommendations found yet. Click 'Generate Recommendations' to analyze sales data.
+            </p>
+        </field>
+    </record>
+
+</odoo>
