@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-extend="ProductScreen">
+        <t t-jquery=".product-list" t-operation="after">
+            <div class="discount-info">
+                <span>Discounts Applied</span>
+            </div>
+        </t>
+    </t>
+    <t t-extend="ProductItem">
+        <t t-jquery=".product-info" t-operation="after">
+            <t t-if="product.is_book">
+                <div class="product-details">
+                    <span class="product-genre">Genre: <t t-esc="product.genre ? product.genre[1] : 'N/A'"/></span><br/>
+                    <span class="product-age">Recommended Age: <t t-esc="product.age || 'N/A'"/></span>
+                </div>
+            </t>
+        </t>
+    </t>
+</templates>
