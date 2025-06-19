@@ -24,6 +24,8 @@ services:
       - HOST=db
       - USER=odoo
       - PASSWORD=odoo
+      - ODOO_MASTER_PASSWORD=bv39-8vcb-5npq
+      
     restart: always
 
 volumes:
