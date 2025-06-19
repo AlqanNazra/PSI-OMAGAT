@@ -12,7 +12,7 @@
     'website': "http://www.yourcompany.com",
     'category': 'Sales',
     'version': '1.0',
-    'depends': ['base', 'sale', 'product', 'contacts'], # Dependensi pada modul sale dan product
+    'depends': ['base', 'sale', 'product', 'contacts', 'book_attributes_extension'], # Dependensi pada modul sale dan product
     'data': [
         'security/ir.model.access.csv',
         'views/product_template_inherit_views.xml',

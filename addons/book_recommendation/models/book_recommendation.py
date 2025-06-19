@@ -1,10 +1,10 @@
-# book_recommendation/models/book_recommendation.py
 from odoo import models, fields, api
+from collections import Counter
 
 class BookRecommendation(models.Model):
     _name = 'book.recommendation'
     _description = 'Book Recommendation Results'
-    _order = 'rank asc' # Mengurutkan berdasarkan peringkat
+    _order = 'rank asc'  # Mengurutkan berdasarkan peringkat
 
     name = fields.Char(string='Item Name', required=True)
     type = fields.Selection([
@@ -13,12 +13,49 @@ class BookRecommendation(models.Model):
         ('author', 'Author'),
     ], string='Type', required=True)
     sales_count = fields.Integer(string='Sales Count', help="Total quantity sold or frequency.")
-    rank = fields.Integer(string='Rank', help="Ranking based on sales count.")
+    rank = fields.Integer(string='Rank', help="Ranking based on sales count.", compute='_compute_rank', store=True)
 
-    # Jika Anda ingin menyimpan referensi ke objek sebenarnya (misalnya, produk, penulis), Anda bisa menambahkannya
-    # product_id = fields.Many2one('product.product', string='Product', ondelete='cascade')
-    # author_id = fields.Many2one('res.partner', string='Author', ondelete='cascade') # Asumsi penulis adalah res.partner
+    @api.depends('sales_count')
+    def _compute_rank(self):
+        for rec in self:
+            # Ambil semua rekomendasi yang ada dan urutkan berdasarkan sales_count
+            recommendations = self.search([], order='sales_count desc')
+            rec.rank = recommendations.ids.index(rec.id) + 1 if rec in recommendations else 0
 
-    # _sql_constraints = [
-    #     ('name_type_unique', 'UNIQUE(name, type)', 'The combination of item name and type must be unique!'),
-    # ]
+    @api.model
+    def generate_recommendations(self, limit=5):
+        # Hapus data lama
+        self.search([]).unlink()
+
+        # Ambil data penjualan dari sale.order.line
+        sale_lines = self.env['sale.order.line'].search([
+            ('order_id.state', 'in', ['sale', 'done'])
+        ])
+
+        # Hitung frekuensi untuk buku, genre, dan penulis
+        book_counter = Counter()
+        genre_counter = Counter()
+        author_counter = Counter()
+
+        for line in sale_lines:
+            product = line.product_id.product_tmpl_id
+            qty = line.product_uom_qty
+            genre = product.genre_id.name if product.genre_id else 'Unknown'
+            author = product.author_id.name if product.author_id else 'Unknown'
+            book_counter[product.name] += qty
+            genre_counter[genre] += qty
+            author_counter[author] += qty
+
+        # Buat entri untuk top books
+        for name, count in book_counter.most_common(limit):
+            self.create({'name': name, 'type': 'book', 'sales_count': count})
+        # Buat entri untuk top genres
+        for name, count in genre_counter.most_common(limit):
+            self.create({'name': name, 'type': 'genre', 'sales_count': count})
+        # Buat entri untuk top authors
+        for name, count in author_counter.most_common(limit):
+            self.create({'name': name, 'type': 'author', 'sales_count': count})
+
+    # Pastikan file ini diimpor di models/__init__.py
+    # Tambahkan di models/__init__.py:
+    # from . import book_recommendation
